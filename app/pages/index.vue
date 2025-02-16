@@ -14,20 +14,6 @@
         </template>
       </ComponentArray>
     </UCard>
-    <UCard class="w-full">
-      <VueuseComponentArray :items="items">
-        <template #item="{ item }">
-          <div>{{ item.label }}</div>
-        </template>
-      </VueuseComponentArray>
-    </UCard>
-    <UCard class="w-full">
-      <VueuseComponentArray :items="nestedItems">
-        <template #item="{ item }">
-          <div>{{ item.label }}</div>
-        </template>
-      </VueuseComponentArray>
-    </UCard>
   </UContainer>
 </template>
 
