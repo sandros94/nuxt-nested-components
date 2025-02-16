@@ -43,7 +43,7 @@ function isArrayOfArray<A>(item: A[] | A[][]): item is A[][] {
   return Array.isArray(item[0])
 }
 
-const [Define, Reuse] = createReusableTemplate<{ item: NestedItem<Item>, index: number }, ComponentSlots<T>>()
+const [Define, Reuse] = createReusableTemplate<{ item: Item, index: number }, ComponentSlots<T>>()
 </script>
 
 <template>
