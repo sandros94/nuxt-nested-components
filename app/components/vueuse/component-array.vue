@@ -7,12 +7,12 @@ export interface Item {
   slot?: string
 }
 
-export interface ComponentProps<T extends Item = Item> {
-  items: T[] | T[][]
+export interface ComponentProps<T extends Item | Item[]> {
+  items: T[]
 }
 
 type SlotProps<T extends Item> = (props: { item: T, index: number, active?: boolean }) => any
-export type NavigationMenuSlots<T extends Item = Item> = {
+export type NavigationMenuSlots<T extends Item> = {
   'item': SlotProps<T>
   'item-content': SlotProps<T>
 } & DynamicSlots<T, SlotProps<T>>
@@ -23,11 +23,11 @@ export type DynamicSlots<T extends { slot?: string }, SlotProps, Slot = T['slot'
 </script>
 
 <!-- eslint-disable import/first -->
-<script setup lang="ts" generic="T extends Item">
+<script setup lang="ts" generic="T extends Item | Item[]">
 import { createReusableTemplate } from '@vueuse/core'
 
 const props = defineProps<ComponentProps<T>>()
-defineSlots<NavigationMenuSlots<T>>()
+defineSlots<NavigationMenuSlots<T extends Array<Item> ? T[number] : T>>()
 
 const lists = computed(() =>
   props.items?.length
@@ -47,13 +47,13 @@ const [Define, Reuse] = createReusableTemplate<{ item: Item, index: number }>()
 <template>
   <Define v-slot="{ item, index }">
     <div>
-      <slot :name="item.slot || 'item'" :item="(item as T)" :index="index" />
+      <slot :name="item.slot || 'item'" :item="(item as T extends Array<Item> ? T[number] : T)" :index="index" />
     </div>
   </Define>
 
   <div>
     <template v-for="(list, listIndex) in lists" :key="`list-${listIndex}`">
-      <Reuse v-for="(item, itemIndex) in list" :key="`item-${itemIndex}`" :item="item" :index="itemIndex" />
+      <Reuse v-for="(item, itemIndex) in list" :key="`item-${itemIndex}`" :item="(item as T extends Array<Item> ? T[number] : T)" :index="itemIndex" />
     </template>
   </div>
 </template>
