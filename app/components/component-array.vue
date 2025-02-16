@@ -12,7 +12,7 @@ export interface ComponentProps<T extends Item | Item[]> {
 }
 
 type SlotProps<T extends Item> = (props: { item: T, index: number, active?: boolean }) => any
-export type NavigationMenuSlots<T extends Item> = {
+export type ComponentSlots<T extends Item> = {
   'item': SlotProps<T>
   'item-content': SlotProps<T>
 } & DynamicSlots<T, SlotProps<T>>
@@ -27,7 +27,7 @@ export type DynamicSlots<T extends { slot?: string }, SlotProps, Slot = T['slot'
 import ComponentArrayItem from './component-array-item.vue'
 
 const props = defineProps<ComponentProps<T>>()
-defineSlots<NavigationMenuSlots<T extends Array<Item> ? T[number] : T>>()
+defineSlots<ComponentSlots<T extends Array<Item> ? T[number] : T>>()
 
 const lists = computed(() =>
   props.items?.length
