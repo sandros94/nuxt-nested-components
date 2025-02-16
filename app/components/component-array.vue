@@ -1,5 +1,6 @@
 <!-- eslint-disable vue/block-tag-newline -->
-<script lang="ts">export interface Item {
+<script lang="ts">
+export interface Item {
   label: string
   myParam?: string
   myOtherParam?: string
